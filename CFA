@@ -3,96 +3,19 @@ install.packages("lavaan", dependencies = TRUE)
 library(lavaan)
 install.packages("sem", dependencies = TRUE)
 library(sem)
-attach(psych)
-psych$gen = factor(psych$Gender, labels=c("Men", "Women"))
-summary(gen)
-psychopathy.model <- '
-primary =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13
-second =~ psy17 + psy18 + psy20 + psy21 + psy22 + psy24 + psy25 + psy26
-'
-psyfit <- cfa(psychopathy.model, data = psych, std.lv = TRUE)
-ei.model <-'
-ei =~ ei1r + ei2 + ei3r + ei4r + ei5 + ei6
-'
-eifit <- cfa(ei.model, ddata = psych, st.lv = TRUE)
-summary(eifit, fit.measures = TRUE)
-semPaths(eifit, "est", nCharNodes = 0)
-psych$antisocial <- (psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13)/11
-
-View(psych)
-mean(Age)
-class(psych)
-class(Gender)
-levels(Gender)
-summary(psych)
-summary(Gender)
-gender <- as.factor(Gender)
-summary(gender)
-psychopathy.model <- '
-primary =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13
-second =~ psy17 + psy18 + psy20 + psy21 + psy22 + psy24 + psy25 + psy26
-'
-psyfit <- cfa(psychopathy.model, data = psych, std.lv = TRUE)
-summary(psyfit, fit.measures = TRUE)
-install.packages("ggplot2")
-library(ggplot2)
 install.packages("semPlot")
 library(semPlot)
-semPaths(fit2, "est", nCharNodes = 0)
+attach(psych)
+psych$gen = factor(psych$Gender, labels=c("Men", "Women"))
+summary(gen)
+psychopathy.model <- '
+primary =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13
+second =~ psy17 + psy18 + psy20 + psy21 + psy22 + psy24 + psy25 + psy26
+'
+psyfit <- cfa(psychopathy.model, data = psych, std.lv = TRUE)
 ei.model <-'
 ei =~ ei1r + ei2 + ei3r + ei4r + ei5 + ei6
 '
 eifit <- cfa(ei.model, ddata = psych, st.lv = TRUE)
 summary(eifit, fit.measures = TRUE)
 semPaths(eifit, "est", nCharNodes = 0)
-library(lavaan)
-semPaths(eifit, "est", nCharNodes = 0)
-semPaths(psyfit, "est", nCharNodes = 0)
-primarypsy.model <- '
-primary =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13
-'
-ppsyfit <- cfa(primarypsy.model, data = psych, std.lv = TRUE, group = gender)
-summary(ppsyfit, fit.measures = TRUE)
-semPaths(ppsyfit, "est", nCharNodes = 0)
-ei.model =~ primarypsy.model
-eifit =~ ppsyfit
-
-abc1.model <-'
-ei =~ ei2 + ei5 + ei6
-primary =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13
-ei =~ primary
-'
-abc1fit <- cfa(abc1.model, data = psych, std.lv = TRUE, missing = "ml")
-summary(abc1fit, fit.measures = TRUE)
-semPaths(abc1fit, "est", nCharNodes = 0)
-psych$gen.f = factor(psych$gen.f, labels=c("Men", "Women"))
-summary(gen.f)
-summary(gen)
-summary(gen)
-psych$gen = factor(psych$Gender, labels=c("Men", "Women"))
-summary(gen)
-tapply(psych$gse1, psych$gen, mean)
-summary(psych)
-gen <- as.factor(gen)
-summary()
-attach(psych)
-abc1.model <-'
-ei =~ ei2 + ei5 + ei6
-primary =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13
-ei =~ primary
-'
-ab.lm = lm(ei2 ~ psy4 * gen, data = psych
-psych$ei <- (ei1r + ei2 + ei3r + ei4r + ei5 + ei6)/6
-summary(psychopathy)
-psych$psy <- (psy1 + psy2 + psy3 + psy4 + psy5 + psy6)/6
-summary(psy)
-psych$antisocial <- (psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy11 + psy13)/11
-summary(antisocial)
-summary(antisocial)
-attach(psych)
-summary(psy)
-summary(psy)
-attach(antisocial)
-summary(psych)
-ad = lm(ei ~ antisocial + gen + antisocial*gen, psych)
-summary(ad)
