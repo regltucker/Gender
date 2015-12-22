@@ -19,3 +19,20 @@ ei =~ ei1r + ei2 + ei3r + ei4r + ei5 + ei6
 eifit <- cfa(ei.model, ddata = psych, st.lv = TRUE)
 summary(eifit, fit.measures = TRUE)
 semPaths(eifit, "est", nCharNodes = 0)
+
+psych <- read.table(file.choose(), header=TRUE, sep="\t")
+library(lavaan)
+attach(psych)
+library(semPlot)
+psych$gen = factor(psych$Gender, labels=c("Men", "Women"))
+summary(gen)
+primpsycho.model <- '
+pripsych =~ psy1 + psy2 + psy3 + psy4 + psy6 + psy7 + psy9 + psy
+zt1.model <- '
+ei =~ ei2 + + ei5 + ei6
+primary =~ psy1 + psy4 + psy6 + psy7 + psy9
+ei ~ primary 
+'
+ztfit1 <- sem(zt1.model, data = psych, group = "gen")
+summary(ztfit1, fit.measures = TRUE, standardized = TRUE)
+semPaths(ztfit1, what = "est", nCharNodes = 0)
