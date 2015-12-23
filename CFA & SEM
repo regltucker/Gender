@@ -1,0 +1,91 @@
+#Read Data into R by using the following command
+psych <- read.table(file.choose(), header=TRUE, sep="\t")
+
+#Attach the data
+attach <- psych
+
+#Install Packages
+install.packages("lavaan")
+install.packages("semPlot")
+
+#Load packages if not already installed
+library(lavaan)
+library(semPlot)
+
+#Create a new variable for gender that is categorical
+psych$gen = factor(psych$Gender, labels=c("Men", "Women"))
+
+#Get a summary of the data for the variable "gen"
+summary(gen)
+
+#CFA for entrepreneurial intentions ("ei")
+ei.model <- '
+#ei =~ ei1r + ei2 + ei3r + ei4r + ei5 + ei6
+#ei =~ ei1r + ei2 + ei4r + ei5 + ei6
+#ei =~ ei1r + ei2 + ei5 + ei6
+#ei =~ ei2 + ei5 + ei6
+ei =~ ei2 + ei3r + ei5 + ei6
+'
+
+#The fit statistics for the last model are the best
+# CFI = .997, TLI = .990, RMSEA = .042, SRMR = .028
+
+#Fit for the ei construct
+entint <- cfa(ei.model, data = psych)
+
+#Summary statistics for ei construct
+summary(entint, fit.measures = TRUE, rsquare = TRUE)
+
+#Plot CFA for entrepreneurial intentions
+semPaths(entint, what = "est", nCharNodes = 0)
+
+#Modification Indices
+modificationindices(entint)
+
+#CFA for psychopathy ("psyc")
+psyc.model <- '
+#primarypsychopathy =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 + psy10r + psy11 + psy12r + psy13 + psy14r + psy15r + psy16r
+#secondarypsychopathy =~ psy17 + psy18 + psy19r + psy20 + psy21 + psy22 + psy23r + psy24 + psy25 + psy26
+#primarypsychopathy =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6 + psy7 + psy8 + psy9 +psy11 + psy13 
+#secondarypsychopathy =~ psy17 + psy18 + psy20 + psy21 + psy22 + psy24 + psy25 + psy26
+#primarypsychopathy =~ psy1 + psy2 + psy3 + psy4 + psy5 + psy6  
+#secondarypsychopathy =~ psy17 + psy18 + psy20 + psy21 + psy22 + psy24
+primarypsychopathy =~ psy9 + + psy10r + psy11 + psy12r + psy13 + psy14r + psy15r + psy16r 
+secondarypsychopathy =~ psy17 + psy18 + psy20 
+psyc =~ primarypsychopathy + secondarypsychopathy
+#The model below is used in the SEM Analysis
+#abcd =~ psy11 + psy13 + psy17 + psy21 + psy22
+'
+
+#Fit for the psychopathy construct
+psyc <- cfa(psyc.model, data = psych)
+
+#Summary statistic for psyc construct
+summary(psyc, fit.measures = TRUE, rsquare = TRUE)
+
+#Plot CFA for psychopathy
+semPaths(psyc, what = "est", nCharNodes = 0)
+
+#Modification Indices
+modificationindices(psyc)
+
+#The following refers to the analysis
+
+#Measurement Model
+etp.model <- '
+ei =~ ei2 + ei3r + ei5 + ei6
+psychopath =~ psy11 + psy13 + psy17 + psy21 + psy22
+ei ~ psychopath
+'
+
+#Fit the data and then give it a name
+etpfit <- sem(etp.model, data = psych, group = "gen")
+
+#Get summary and model statistics
+summary(etpfit, fit.measures = TRUE, standardized = TRUE)
+
+#The following allows you to see a PATH ANALYSIS
+semPaths(etpfit, what = "est", nCharNodes = 0)
+
+#For MODIFICATION INDICES
+modificationindices(etpfit)
