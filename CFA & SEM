@@ -89,3 +89,15 @@ semPaths(etpfit, what = "est", nCharNodes = 0)
 
 #For MODIFICATION INDICES
 modificationindices(etpfit)
+
+#Create a new variable for psychopathy ("psycho")
+psych$psychopathy <- (psych$psy1 + psych$psy2 + psych$psy3 + psych$psy4 + psych$psy5 + psych$psy6 + psych$psy7 + psych$psy8 + psych$psy9 + psych$psy10r + psych$psy11 + psych$psy12r + psych$psy13 + psych$psy14r + psych$psy15r + psych$psy16r + psych$psy17 + psych$psy18 + psych$psy19r + psych$psy20 + psych$psy21 + psych$psy22 + psych$psy23r + psych$psy24 + psych$psy25 + psych$psy26)/26
+
+summary(psychopathy)
+
+psych$entintent <- (psych$ei2 + psych$ei5 + psych$ei6)/
+
+summary(entintent)
+
+testmodel <- lm(entintent ~ psychopathy + Gender + psychopathy:Gender + Race)
+summary(testmodel)
