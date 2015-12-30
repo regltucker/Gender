@@ -1,0 +1,49 @@
+#Read Data into R by using the following command
+psych <- read.table(file.choose(), header=TRUE, sep="\t")
+
+#Attach the data
+attach <- psych
+
+#Install Package(s)
+install.packages("lavaan")
+
+#Load packages if not already installed
+library(lavaan)
+
+attach(psych)
+
+#Create a new variable for entrepreneurial intentions ("EI")
+psych$EI <- (psych$ei1r + psych$ei2 + psych$ei3r + psych$ei4r + psych$ei5 + psych$ei6)/6
+summary(EI)
+
+#Create a new variable for psychopathy ("psycho")
+psych$PSYCHOPATHY <- (psych$psy1 + psych$psy2 + psych$psy3 + psych$psy4 + psych$psy5 + psych$psy6 + psych$psy7 + psych$psy8 + psych$psy9 + psych$psy10r + psych$psy11 + psych$psy12r + psych$psy13 + psych$psy14r + psych$psy15r + psych$psy16r + psych$psy17 + psych$psy18 + psych$psy19r + psych$psy20 + psych$psy21 + psych$psy22 + psych$psy23r + psych$psy24 + psych$psy25 + psych$psy26)/26
+summary(PSYCHOPATHY)
+
+#Create a new variable for general self-efficacy ("GSE")
+psych$GSE <- (gse1 + gse2 + gse3 + gse4 + gse5 + gse6 + gse7 + gse8)/8
+summary(GSE)
+
+#Create a new variable for entrepreneurial self-efficacy ("ESE")
+psych$ESE <- (ese1 + ese2 + ese3 + ese4 + ese5 + ese6 + ese7 + ese8 + ese9 + ese10 + ese11 + ese12 + ese13 + ese14 + ese15 + ese16 + ese17 + ese18)/18
+summary(ESE)
+
+#First Model is a model of control variables
+control <- lm(EI ~ Race + Age + ESE)
+summary(control)
+
+#Second Model is a model of independent variables without interaction
+IVmodel <- lm(EI ~ Race + Age + ESE + gen + PSYCHOPATHY)
+summary(IVmodel)
+
+#Third Model is a model is same as second model, but includes interaction
+Xmodel <- lm(EI ~ Race + Age + ESE + gen + PSYCHOPATHY + gen:PSYCHOPATHY, gen==Women)
+summary(Xmodel)
+
+female <- subset(psych, Gender = 2)
+summary(female)
+summary(female)
+attach(female)
+summary(gen)
+attach(females)
+females <- psych[ which(gen=="Women"), ]
